@@ -132,7 +132,7 @@
  },
  "custom/power": {
      "format":"⏻",
-     "on-click": "nwgbar",
+     "on-click": "wlogout -c 30 -r 30 -s",
      "tooltip": false,
  },
  "custom/keyboard-layout": {
