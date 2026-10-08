@@ -10,7 +10,7 @@
 
     "modules-left": ["custom/launcher", "hyprland/workspaces", "hyprland/window"],
     "modules-center": ["custom/network_traffic"],
-    "modules-right": ["custom/updates", "backlight", "custom/keyboard-layout", "temperature", "cpu", "memory", "battery", "pulseaudio", "network", "tray", "idle_inhibitor", "clock","custom/power"],
+    "modules-right": ["custom/updates", "backlight", "custom/keyboard-layout", "temperature", "cpu", "memory", "disk", "battery", "pulseaudio", "network", "tray", "idle_inhibitor", "clock","custom/power"],
 
  // Modules configuration
 
@@ -70,6 +70,10 @@
  "memory": {
      "format": "🖴 {: >3}%",
      "on-click": "kitty -e htop"
+ },
+ "disk": {
+     "format": "⛁ {: >3}%",
+     "on-click": "kitty -e btop"
  },
  "temperature": {
      "thermal-zone": 7,  // Check with: # cat /sys/class/hwmon/hwmon*/temp1_input
