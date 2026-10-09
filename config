@@ -169,8 +169,8 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "footclient -T waybar_alsamixer -e alsamixer -M",
-        "on-click-right": "pavucontrol"
+        "on-click": "pavucontrol",
+        "on-click-right": "python ~/.config/waybar/scripts/pulse_sink_round_robin.py",
  },
         // https://github.com/chubin/wttr.in
         "custom/weather": {
