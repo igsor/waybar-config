@@ -6,8 +6,6 @@
     "spacing":0,
 
     // Choose the order of the modules
-    // Add according to your wishes: "custom/weather"
-
     "modules-left": ["custom/launcher", "hyprland/workspaces", "hyprland/window"],
     "modules-center": ["custom/network_traffic"],
     "modules-right": ["custom/updates", "backlight", "custom/keyboard-layout", "temperature", "cpu", "memory", "disk", "battery", "pulseaudio", "network", "tray", "idle_inhibitor", "clock","custom/power"],
@@ -172,10 +170,4 @@
         "on-click": "pavucontrol",
         "on-click-right": "python ~/.config/waybar/scripts/pulse_sink_round_robin.py",
  },
-        // https://github.com/chubin/wttr.in
-        "custom/weather": {
-            "exec": "curl 'https://wttr.in/Essen?format=2'",
-            "interval": 900,
-            "on-click": "yad --html --uri='https://wttr.in/Essen' --center --fixed --width=1000 --height=680 --timeout=60 --timeout-indicator=right"
-        },
 }
