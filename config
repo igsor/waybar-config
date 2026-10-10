@@ -68,7 +68,7 @@
      "on-click": "kitty -e btop"
  },
  "disk": {
-     "format": "⛁ {: >3}%",
+     "format": " {: >3}%",
      "on-click": "kitty -e btop"
  },
  "temperature": {
