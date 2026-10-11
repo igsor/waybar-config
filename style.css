@@ -1,187 +1,273 @@
-/* =============================================================================
- *
- * Waybar configuration
- *
- * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
- *
- * =========================================================================== */
 
 /* -----------------------------------------------------------------------------
- * Keyframes
+ * Color scheme
  * -------------------------------------------------------------------------- */
+@define-color background rgba(0, 0, 0, 1);
+@define-color fg rgba(236, 239, 244, 1);
+@define-color dimmed rgba(180, 142, 173, 1);
+@define-color warn rgba(226, 5, 72, 1);
+@define-color active rgba(139,190,27, 1);
+
+@define-color generic-color-1 rgba(239, 111, 108, 1);
+@define-color generic-color-2 rgba(115, 251, 211, 1);
+@define-color generic-color-3 rgba(245, 203, 92, 1);
+@define-color generic-color-4 rgba(80, 197, 183, 1);
+@define-color generic-color-5 rgba(97, 132, 216, 1);
 
 
-/*
-Polar Night
-nord0  #2e3440
-nord1  #3b4252
-nord2  #434c5e
-nord3  #4c566a
-Snow Storm
-nord4  #d8dee9
-nord5  #e5e9f0
-nord6  #eceff4
-Frost
-nord7  #8fbcbb
-nord8  #88c0d0
-nord9  #81a1c1
-nord10 #5e81ac
-Aurora
-nord11 #bf616a
-nord12 #d08770
-nord13 #ebcb8b
-nord14 #a3be8c
-nord15 #b48ead
-*/
 
 /* -----------------------------------------------------------------------------
- * Base styles
+ * Decorations
  * -------------------------------------------------------------------------- */
+box#image.horizontal.module.right-corner { background-color: transparent; }
+box#image.horizontal.module.left-corner { background-color: transparent; }
 
-/* Reset all styles */
+.modules-left label { background-color: @background; }
+.modules-left box { background-color: @background; }
 
-* {
-    color: #eceff4;
-    border: 0;
-    border-radius: 0;
-    padding: 0 0;
-    font-family:Symbols Nerd Font Mono;
-    font-size: 15px;
-    margin-right: 5px;
-    margin-left: 5px;
-    padding-bottom:2px;
-   }
+.modules-center label { background-color: @background; }
+.modules-center box { background-color: @background; }
 
-window#waybar {
-    background-color: transparent;
-    border-radius: 20px 20px 20px 20px;
-}
+.modules-right label { background-color: @background; }
+.modules-right box { background-color: @background; }
 
-#workspaces button {
-    padding: 2px 0px;
-    border-bottom: 2px;
-    color: #eceff4;
-    border-color: #d8dee9;
-    border-style: solid;
-    margin-top:2px;
-}
-
-#workspaces button.active {
-    border-color: #81a1c1;
-}
-
-#clock, #battery, #cpu, #memory, #idle_inhibitor, #disk, #temperature, #custom-keyboard-layout, #backlight, #network, #pulseaudio, #tray, #window, #custom-launcher, #custom-power, #custom-updates ,#custom-network_traffic, #custom-weather {
-    padding: 0 3px;
-    border-bottom: 2px;
-    border-style: solid;
-}
-
-/* -----------------------------------------------------------------------------
- * Module styles
- * -------------------------------------------------------------------------- */
-
-
-#clock {
- color:#a3be8c;
-}
-
-#backlight {
-    color: #ebcb8b;
-}
-
-#battery {
-    color: #d8dee9;
-}
-
-#battery.charging {
-    color: #81a1c1;
-}
-
-@keyframes blink {
+@keyframes alerting {
     to {
-        color: #4c566a;
-        background-color: #eceff4;
+        background-color: @warn;
     }
 }
 
-#battery.critical:not(.charging) {
-    background: #bf616a;
-    color: #eceff4;
-    animation-name: blink;
+/* -----------------------------------------------------------------------------
+ * Generic styles
+ * -------------------------------------------------------------------------- */
+* {
+    color: @fg;
+    font-family: JetBrainsMono Nerd Font Propo;
+    font-size: 12pt;
+   }
+
+#header * {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+window#waybar {
+    background-color: transparent;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Left module styles
+ * -------------------------------------------------------------------------- */
+#workspaces button {
+    border-bottom: solid 5px @background;
+}
+
+@define-color active-workspace-background rgba(51, 51, 51, 1);
+#workspaces button.active {
+    background-color: @active-workspace-background;
+    border-bottom: solid 5px @active;
+}
+#workspaces button.active * {
+    background-color: @active-workspace-background;
+}
+#workspaces button.urgent {
+    border-color: @warn;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Center module styles
+ * -------------------------------------------------------------------------- */
+#privacy image {
+    color: @warn;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#clock {
+    color: @fg;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#custom-media-player-status label {
+    color: @dimmed;
+    font-size: 15pt;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#mpd {
+    color: @generic-color-2;
+    font-size: 15pt;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#custom-media-now-playing label {
+    color: @dimmed;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#pulseaudio {
+    color: @dimmed;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#pulseaudio.muted {
+    color: @warn;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Right module styles
+ * -------------------------------------------------------------------------- */
+#custom-system-monitor label {
+    color: @dimmed;
+    font-size: 15pt;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#user label {
+    color: @dimmed;
+    padding-right: 5px;
+}
+#custom-network_traffic label {
+    color: @generic-color-1;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#cpu_graph {
+    color: @generic-color-2;
+    padding-left: 5px;
+}
+#cpu_graph.cpu-moderate{
+    color: green;
+}
+#cpu_graph.cpu-high {
+    color: yellow;
+}
+#cpu_graph.cpu-intensive {
+    color: red;
+}
+#cpu {
+    color: @generic-color-2;
+    margin-bottom: -5px;
+    padding-right: 5px;
+}
+#memory {
+    color: @generic-color-3;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#disk {
+    color: @generic-color-4;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#temperature {
+    color: @generic-color-5;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#temperature.critical {
+    color: @fg;
+    font-weight: bold;
+    animation-name: alerting;
     animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
 
-#cpu {
-    color:#a3be8c ;
+#custom-system-utils label {
+    color: @dimmed;
+    padding-left: 3px;
+    padding-right: 3px;
 }
-
-#memory {
-    color: #d3869b;
-}
-
-#disk {
-   color: #ebcb8b;
-}
-
-#network.disabled {
-    color:#bf616a;
-}
-
-#network{
-    color:#a3be8c;
-}
-
-#network.disconnected {
-    color: #bf616a;
-}
-
-#pulseaudio {
-    color: #b48ead;
-}
-
-#pulseaudio.muted {
-    color: #e20548;
-}
-
-#temperature {
-    color: #8fbcbb;
-}
-
-#temperature.critical {
-    color: #bf616a;
-}
-
-#idle_inhibitor {
-   color: #ebcb8b;
-}
-
 #tray {
+    color: @fg;
+    padding-left: 0px;
+    padding-right: 5px;
+}
+#custom-keyboard-layout label {
+    color: @generic-color-2;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#backlight {
+    color: @generic-color-3;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#custom-updates label {
+    color: @generic-color-1;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#idle_inhibitor {
+    color: @generic-color-5;
+    padding-left: 5px;
+    padding-right: 15px;
 }
 
-#custom-launcher{
-        font-size: 20px;
-        background-image: url('/home/matthias/.config/waybar/launcher.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        border-style: hidden;
+#bluetooth {
+    color: @fg;
+    font-size: 15pt;
+    padding-left: 5px;
+    padding-right: 5px;
 }
-
-#custom-power{
-    border-style: hidden;
-    margin-top:2px;
+#bluetooth.disabled {
+    color: @warn;
 }
-
-#window{
-    border-style: hidden;
-    margin-top:1px;
+#bluetooth.off {
+    color: @warn;
 }
-#custom-keyboard-layout{
-   color:#d08770;
+#bluetooth.discoverable{
+    color: @fg;
+    animation-name: alerting;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
-#custom-network_traffic{
-   color:#d08770;
+#network {
+    color: @fg;
+    font-size: 15pt;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#network.disabled {
+    color: @warn;
+}
+#network.disconnected {
+    color: @warn;
+}
+#battery {
+    color: @fg;
+    font-size: 15pt;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#battery.charging {
+    color: @active;
+}
+#battery.low:not(.charging) {
+    color: @active;
+}
+#battery.warning:not(.charging) {
+    color: @warn;
+}
+#battery.critical:not(.charging) {
+    color: @fg;
+    animation-name: alerting;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+#custom-power label {
+    color: @fg;
+    font-size: 17pt;
+    padding-left: 5px;
+    padding-right: 5px;
 }
