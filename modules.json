@@ -13,7 +13,7 @@
             "class<firefox>": "󰖟 ",
             "class<firefox> title<.*github.*>": " ",
             "class<kitty>": " ",
-            "class<thunderbird>": " ",
+            "class<.*Mozilla Thunderbird>": " ",
             "class<kitty> title<.*nvim.*>": " ",
             "class<kitty> title<.*rmpc.*>": "󰝚 ",
             "class<kitty> title<.*btop.*>": "󰾆 ",
