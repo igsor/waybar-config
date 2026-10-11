@@ -35,12 +35,12 @@
     ],
 
     "image#left-corner": {
-        "path": "$HOME/.config/waybar/assets/left-corner.png",
+        "path": "$HOME/.config/waybar/assets/left-corner.svg",
         "size": 33,
     },
 
     "image#right-corner": {
-        "path": "$HOME/.config/waybar/assets/right-corner.png",
+        "path": "$HOME/.config/waybar/assets/right-corner.svg",
         "size": 33,
     },
 }
