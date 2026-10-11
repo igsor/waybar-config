@@ -15,6 +15,7 @@
         "hyprland/workspaces",
         "image#right-corner",
     ],
+
     "modules-center": [
         "image#left-corner",
         "privacy",
@@ -22,6 +23,7 @@
         "group/music",
         "image#right-corner"
     ],
+
     "modules-right": [
         "image#left-corner",
         "group/system-monitor",
@@ -32,14 +34,13 @@
         "custom/power",
     ],
 
- "image#left-corner": {
-    "path": "$HOME/.config/waybar/assets/left-corner.png",
-    "size": 33,
- },
+    "image#left-corner": {
+        "path": "$HOME/.config/waybar/assets/left-corner.png",
+        "size": 33,
+    },
 
- "image#right-corner": {
-    "path": "$HOME/.config/waybar/assets/right-corner.png",
-    "size": 33,
- },
-
+    "image#right-corner": {
+        "path": "$HOME/.config/waybar/assets/right-corner.png",
+        "size": 33,
+    },
 }
