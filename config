@@ -34,9 +34,10 @@
      "on-scroll-up": "hyprctl dispatch workspace e+1",
      "on-scroll-down": "hyprctl dispatch workspace e-1",
  },
+
  "hyprland/window": {
      "format": "{}",
-     "icon":true,
+     "icon": true,
      "icon-size" : 20
  },
  "idle_inhibitor": {
