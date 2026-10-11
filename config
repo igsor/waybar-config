@@ -43,12 +43,26 @@
 
  // Modules configuration
  "hyprland/workspaces": {
-     "format": "{icon}",
+     "format": "{icon} {windows}",
      "on-click": "activate",
      "all-outputs": true, // NOTE: Could be interesting to turn to false
      "sort-by-number": true,
      "on-scroll-up": "hyprctl dispatch workspace e+1", // FIXME: broken
      "on-scroll-down": "hyprctl dispatch workspace e-1", // FIXME: broken
+     "window-rewrite-default": " ",
+     "format-window-separator": "",
+     "window-rewrite": { // NOTE: Maybe show this on the left in a dedicated dock
+         "title<.*youtube.*>": " ",
+         "class<firefox>": "󰖟 ",
+         "class<firefox> title<.*github.*>": " ",
+         "class<kitty>": " ",
+         "class<thunderbird>": " ",
+         "class<kitty> title<.*nvim.*>": " ",
+         "class<kitty> title<.*rmpc.*>": "󰝚 ",
+         "class<kitty> title<.*btop.*>": "󰾆 ",
+         "class<vlc>": "󰕼 ",
+         "class<gimp>": " ",
+     },
  },
 
  "group/music": {

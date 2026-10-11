@@ -76,6 +76,12 @@ window#waybar {
 #workspaces button.urgent {
     border-color: @warn;
 }
+/* -- Could be useful?
+#workspaces button.hosting-monitor label {
+    color: @active;
+    font-weight: bold;
+}
+*/
 
 
 /* -----------------------------------------------------------------------------
