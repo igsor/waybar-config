@@ -2,17 +2,13 @@
 /* -----------------------------------------------------------------------------
  * Color scheme
  * -------------------------------------------------------------------------- */
-@define-color background rgba(0, 0, 0, 1);
-@define-color fg rgba(236, 239, 244, 1);
-@define-color dimmed rgba(180, 142, 173, 1);
-@define-color warn rgba(226, 5, 72, 1);
-@define-color active rgba(139,190,27, 1);
-
-@define-color generic-color-1 rgba(239, 111, 108, 1);
-@define-color generic-color-2 rgba(115, 251, 211, 1);
-@define-color generic-color-3 rgba(245, 203, 92, 1);
-@define-color generic-color-4 rgba(80, 197, 183, 1);
-@define-color generic-color-5 rgba(97, 132, 216, 1);
-
-
-
+@define-color background        #141726;
+@define-color fg                #E5D7E2;
+@define-color dimmed            #ADA5AF;
+@define-color warn              #a63e5a;
+@define-color active            #B8938F;
+@define-color generic-color-1   #AFB2C2;
+@define-color generic-color-2   #979BB8;
+@define-color generic-color-3   #B39AAF;
+@define-color generic-color-4   #DBC0D6;
+@define-color generic-color-5   #947D91;
