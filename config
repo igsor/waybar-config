@@ -1,17 +1,47 @@
 {
-    "layer": "top", // Waybar at top layer
-    "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 40,
-    "margin": "0 5 0 5",
-    "spacing":0,
+    "name": "header",
+    "mode": "dock", // dock = designated space, hide = on top of workspace
+    "layer": "top",
+    "position": "top",
+    "height": 33, // NOTE: sync with left/right corner images
+    "reload_style_on_change": true, // for debugging, mostly
+    "fixed-center": true,
+    // margin and spacing MUST be defined by css
+    "margin": "0 0 0 0",
+    "spacing": 0,
 
-    // Choose the order of the modules
-    "modules-left": ["custom/launcher", "hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["custom/network_traffic"],
-    "modules-right": ["custom/updates", "backlight", "custom/keyboard-layout", "temperature", "cpu", "memory", "disk", "battery", "pulseaudio", "network", "tray", "idle_inhibitor", "clock","custom/power"],
+    "modules-left": [
+        "hyprland/workspaces",
+        "image#right-corner",
+    ],
+    "modules-center": [
+        "image#left-corner",
+        "privacy",
+        "clock",
+        "group/music",
+        "image#right-corner"
+    ],
+    "modules-right": [
+        "image#left-corner",
+        "group/system-monitor",
+        "group/system-utils",
+        "bluetooth",
+        "network",
+        "battery",
+        "custom/power",
+    ],
+
+ "image#left-corner": {
+    "path": "$HOME/.config/waybar/assets/left-corner.png",
+    "size": 33,
+ },
+
+ "image#right-corner": {
+    "path": "$HOME/.config/waybar/assets/right-corner.png",
+    "size": 33,
+ },
 
  // Modules configuration
-
  "hyprland/workspaces": {
      "format": "{icon}",
      "on-click": "activate",
@@ -35,91 +65,197 @@
      "on-scroll-down": "hyprctl dispatch workspace e-1",
  },
 
- "hyprland/window": {
-     "format": "{}",
-     "icon": true,
-     "icon-size" : 20
- },
- "idle_inhibitor": {
-     "format": "{icon}",
-     "format-icons": {
-         "activated": "",
-         "deactivated": "",
+ "group/music": {
+     "orientation": "horizontal",
+     "drawer": {
+         "transition-duration": 500,
+         "click-to-reveal": true,
+         "transition-left-to-right": true
      },
-     "on-click":"exec ~/.config/hypr/scripts/idle_inhibitor.sh",
-
+     "modules": [
+        "custom/media-player-status",
+        "mpd",
+        "custom/media-now-playing",
+        "pulseaudio",
+     ],
  },
- "tray": {
-     "icon-size": 20,
-     "spacing": 5
+
+
+ // Center modules
+ "privacy": {
+     "icon-spacing": 4,
+     "icon-size": 0, // 0 = autosize
+     "transition-duration": 250,
+     "modules": [
+         {
+             "type": "screenshare",
+             "tooltip": true,
+         },
+         {
+             "type": "audio-in",
+             "tooltip": true,
+         },
+     ],
  },
  "clock": {
      "tooltip-format": "<big>{:%A, %d.%B %Y }</big>\n<tt><small>{calendar}</small></tt>",
-     "format": " {:%a %d %b  %H:%M:%S}",    //24 hour format
-     // "format-alt": " {:%d/%m/%Y  %H:%M:%S}",
+     "format": "{:%H:%M}", //24 hour format
      "interval": 1,
-     "on-click": "~/.config/waybar/scripts/OCV",
+     "on-click": "$HOME/.config/waybar/scripts/OCV",
+ },
+ "custom/media-player-status": {
+     "exec": "$HOME/.config/waybar/scripts/media-player-status.sh",
+     "escape": true,
+     "tooltip": false,
+ },
+ "custom/media-now-playing": {
+     "exec": "$HOME/.config/waybar/scripts/media-now-playing.sh",
+     "escape": true,
+     "tooltip": false,
+     "on-click": "rmpc next",
+     "on-click-middle": "kitty rmpc",
+     "on-click-right": "rmpc prev",
+ },
+ "mpd": {
+     "format": "{stateIcon}",
+     "format-stopped": "",
+     "format-paused": "",
+     "format-disconnected": "",
+     "tooltip-format": "{stateIcon}{singleIcon}{repeatIcon}{consumeIcon}{randomIcon} | {artist} - {album} - {title}",
+     "tooltip-format-disconnected": "disconnected",
+     "on-click": "rmpc togglepause",
+     "on-click-middle": "kitty rmpc",
+     "on-click-right": "rmpc next",
+     "state-icons": {
+         "playing": "󱖏",
+         "paused": ""
+     },
+     "consume-icons": { "on": "󱕔" },
+     "random-icons": { "on": "" },
+     "repeat-icons": { "on": "󰑖" },
+     "single-icons": { "on": "󰑘", },
+ },
+ "pulseaudio": {
+     "scroll-step": 3,
+     "format": "{icon} {volume}% {format_source}",
+     "format-bluetooth": "{volume}% {icon}",
+     "format-bluetooth-muted": " {icon}",
+     "format-muted": " {format_source}",
+     "format-source": "",
+     "format-source-muted": "",
+     "format-icons": {
+         "headphone": "",
+         "hands-free": "",
+         "headset": "",
+         "phone": "",
+         "portable": "",
+         "car": "",
+         "default": ["", "", ""]
+     },
+     "on-click": "pavucontrol --tab=3",
+     "on-click-right": "python $HOME/.config/waybar/scripts/pulse_sink_round_robin.py",
+ },
+
+
+
+ // Right modules
+ "group/system-monitor": {
+     "orientation": "horizontal",
+     "drawer": {
+         "transition-duration": 500,
+         "transition-left-to-right": false
+     },
+     "modules": [
+         "custom/system-monitor",
+         "user",
+         "custom/network-traffic",
+         "cpu_graph",
+         "cpu",
+         "memory",
+         "disk",
+         "temperature",
+     ],
+ },
+ "custom/system-monitor": {
+     "format": "󰾆 ",
+     "tooltip-format": "System Monitor",
+     "on-click": "kitty -e btop"
+ },
+ "user": {
+     "format": "󰔛 {work_H}:{work_M}:{work_S}",
+ },
+ "custom/network-traffic": {
+     "exec": "$HOME/.config/waybar/scripts/network_traffic.sh",
+     "return-type": "json",
+     "format": "󰒍 {text}",
+     "on-click": "kitty -e btop",
  },
  "cpu": {
-     "format": "🖳{usage}%",
+     "format": "🖳 {usage}%",
+     "on-click": "kitty -e btop"
+ },
+ "cpu_graph": {
+     "graph_type": "line",
+     "datapoints": 100,
+     "width": 100,
+     "interval": 2,
      "on-click": "kitty -e btop"
  },
  "memory": {
-     "format": "🖴 {: >3}%",
+     "format": "🖴 {percentage}%",
+     "tooltip-format": "RAM:  {used:0.1f} out of {avail:0.1f}GiB ({percentage}%)\nSWAP: {swapUsed:0.1f} out of {swapTotal:0.1f}GiB ({swapPercentage}%)",
      "on-click": "kitty -e btop"
  },
  "disk": {
-     "format": " {: >3}%",
+     "format": " {percentage_used}%",
      "on-click": "kitty -e btop"
  },
  "temperature": {
-     "thermal-zone": 7,  // Check with: # cat /sys/class/hwmon/hwmon*/temp1_input
-     "hwmon-path": "/sys/class/hwmon/hwmon7/temp1_input",
+     "thermal-zone": 6,  // Check with: # cat /sys/class/hwmon/hwmon*/temp1_input
+     "hwmon-path": "/sys/class/hwmon/hwmon6/temp1_input",
      "critical-threshold": 80,
-     "format-critical": "{temperatureC}°C ",
-     "format": "{temperatureC}°C ",
+     "format-critical": "{temperatureC}°C",
+     "format": "{temperatureC}°C ",
      "on-click": "kitty -e btop",
  },
+
+ "group/system-utils": {
+     "orientation": "horizontal",
+     "drawer": {
+         "transition-duration": 500,
+         "click-to-reveal": true,
+         "transition-left-to-right": false
+     },
+     "modules": [
+         "custom/system-utils",
+         "tray",
+         "custom/keyboard-layout",
+         "backlight",
+         "custom/updates",
+         "idle_inhibitor",
+     ],
+ },
+ "custom/system-utils": {
+     "format": "󰖷 ",
+     "tooltip-format": "System utils",
+ },
+ "tray": {
+     "icon-size": 20,
+     "spacing": 5,
+ },
+ "custom/keyboard-layout": {
+     "format": " ",
+     "on-click": "$HOME/.config/waybar/scripts/keyhint.sh",
+ },
  "backlight": {
-        // "device": "acpi_video1",
-        "format": "{icon} {percent: >3}%",
-        "format-icons": ["", ""],
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "󰃟", ""],
         "on-scroll-down": "brightnessctl -c backlight set 1%-",
         "on-scroll-up": "brightnessctl -c backlight set +1%",
-        "on-click": "~/.config/waybar/scripts/backlight-hint.sh"
- },
- "battery": {
-     "interval": 120,
-     "states": {
-            // "good": 95,
-            "warning": 10,
-            "critical": 5
-     },
-     "format": "{icon} {capacity: >3}%",
-     "format-icons": ["", "", "", "", ""]
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        //"format-icons": ["", "", "", "", "", "", "", "", "", ""]
-        //"format": "&#x202b;{icon}&#x202c; {capacity}%",
-        //"format-icons": ["ﱉ","ﱊ","ﱌ","ﱍ","ﱋ"]
- },
- "network": {
-        //"interface": "wlp0s20f3", // (Optional) To force the use of this interface  "format-wifi": "  {essid}",
-        "format": "⚠Disabled",
-        "format-wifi": "",
-        "format-ethernet": "",
-        "format-linked": "{ifname} (No IP)",
-        "format-disconnected": "⚠Disabled",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "family": "ipv4",
-        "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
-        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
-        //"min-length": 2,
-        //"max-length": 2,
-        "on-click": "nm-connection-editor"
+        "on-click": "$HOME/.config/waybar/scripts/backlight-hint.sh"
  },
  "custom/updates": {
-     "format": "{} {icon}",
+     "format": "{icon} {text}",
      "return-type": "json",
      "format-icons": {
          "has-updates": "󱍷",
@@ -129,46 +265,59 @@
      "exec": "waybar-module-pacman-updates --interval-seconds 5 --network-interval-seconds 7200 --network-interval-seconds",
      "on-click": "kitty -e update"
  },
+ "idle_inhibitor": {
+     "format": "{icon}",
+     "format-icons": {
+         "activated": "",
+         "deactivated": "",
+     },
+     "on-click":"$HOME/.config/hypr/scripts/idle_inhibitor.sh",
+ },
+
+ "bluetooth": {
+     "format-no-controller": "󰇘",
+     "format-on": "",
+     "format-connected": "󰂱",
+     "format-disabled": "󰂲",
+     "tooltip-format-disabled": "",
+     "tooltip-format-off": "",
+     "tooltip-format-on": "",
+     "format-icons": ["󰤾", "󰤿", "󰥀", "󰥁", "󰥂", "󰥃", "󰥄", "󰥅", "󰥆", "󰥈"],
+     "tooltip-format-connected": "{icon} {device_address_type} {device_address}",
+     "tooltip-format-enumerate-connected": "{device_enumerate}",
+     "on-click": "blueman-manager",
+     "on-click-right": "rfkill toggle bluetooth",
+ },
+ "network": {
+     "rfkill": true,
+     "format-wifi": "{icon}",
+     "format-ethernet": "",
+     "format-linked": "{ifname} (No IP)",
+     "format-disconnected": "󰖪",
+     "format-disabled": "󰖪",
+     "family": "ipv4",
+     "format-icons": ["󰤯 ", "󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
+     "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
+     "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
+     "on-click": "nm-connection-editor",
+     "on-click-right": "rfkill toggle wifi",
+ },
+ "battery": {
+     "interval": 60,
+     "states": {
+            "good": 95,
+            "low": 30,
+            "warning": 10,
+            "critical": 5,
+     },
+     "format": "{icon}",
+     "format-time": "{H}:{m}",
+     "format-icons": [" ", " ", " ", " ", " "],
+     "tooltip-format": "{timeTo}, now at {capacity}%",
+ },
  "custom/power": {
      "format":"⏻",
      "on-click": "wlogout -c 30 -r 30 -s",
      "tooltip": false,
- },
- "custom/keyboard-layout": {
-     "format": " Cheat", // Icon: keyboard
-     "on-click": "~/.config/waybar/scripts/keyhint.sh",
- },
- "custom/launcher": {
-     "format":"    ",
-     "on-click": "exec nwg-drawer -c 7 -is 70 -spacing 23",
-     "tooltip": false,
- },
- "custom/network_traffic": {
-     "exec": "~/.config/waybar/scripts/network_traffic.sh",
-     "return-type": "json",
-     "format-ethernet": "{icon} {ifname} ⇣{bandwidthDownBytes} ⇡{bandwidthUpBytes}",    // optional
-     "on-click": "kitty -e btop",
- },
- "pulseaudio": {
-     "scroll-step": 3, // %, can be a float
-     "format": "{icon} {volume}% {format_source}",
-     "format-bluetooth": "{volume}% {icon} {format_source}",
-     "format-bluetooth-muted": " {icon} {format_source}",
-     "format-muted": " {format_source}",
-        //"format-source": "{volume}% ",
-        //"format-source-muted": "",
-        "format-source": "",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol",
-        "on-click-right": "python ~/.config/waybar/scripts/pulse_sink_round_robin.py",
  },
 }
